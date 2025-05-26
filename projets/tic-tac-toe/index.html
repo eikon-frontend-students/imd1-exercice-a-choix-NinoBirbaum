@@ -6,11 +6,59 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Jeu du Morpion</h1>
-    <div class="board" id="board"></div>
-    <div class="status" id="status">Joueur X commence</div>
-    <button class="reset" id="reset">Rejouer</button>
+    <canvas></canvas>
+    <h1>
+      <div>
+        <div class="logo">404</div>
+        <span class="adjective">The requested page could not be found.</span>
+      </div>
+      <span>TIC-TAC-TOE</span>
+    </h1>
 
+    <table class="xo shiny-edges">
+      <tr>
+        <td tabindex="0">&nbsp;</td>
+        <td tabindex="0"></td>
+        <td tabindex="0"></td>
+      </tr>
+      <tr>
+        <td tabindex="0">&nbsp;</td>
+        <td tabindex="0"></td>
+        <td tabindex="0"></td>
+      </tr>
+      <tr>
+        <td tabindex="0">&nbsp;</td>
+        <td tabindex="0"></td>
+        <td tabindex="0"></td>
+      </tr>
+    </table>
+    <div class="pyro">
+      <div class="before"></div>
+      <div class="after"></div>
+    </div>
+    <footer>
+      <div class="game-status">
+        <div class="turn">
+          <span class="player-1"
+            ><b>⨯</b> <strong>PLAYER&thinsp;1</strong>'s turn</span
+          >
+          <span class="player-2"
+            ><i>⭘</i> <strong>PLAYER&thinsp;2</strong>'s turn</span
+          >
+        </div>
+        <div>
+          <span class="win player-2 rubberband">
+            <strong>🎉 PLAYER&thinsp;1 wins!</strong></span
+          >
+          <span class="win player-1 rubberband"
+            ><strong>🎉 PLAYER&thinsp;2 wins!</strong></span
+          >
+        </div>
+      </div>
+      <button class="reset-btn">
+        <span class="reset">Reset</span>
+      </button>
+    </footer>
     <script src="script.js"></script>
   </body>
 </html>
