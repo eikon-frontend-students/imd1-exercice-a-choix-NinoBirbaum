@@ -1,0 +1,4107 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap");
+@layer reset {
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+  img {
+    max-width: 100%;
+  }
+}
+html {
+  color-scheme: dark;
+  background-color: canvas;
+  background-color: light-dark(#fff, #1e1e1e);
+  background-color: light-dark(#ffffff, #05020e);
+  padding: 1rem;
+  font-family: system-ui;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+}
+html body {
+  display: grid;
+  gap: 1rem;
+  color: light-dark(#333, #aaa);
+  color: light-dark(#444, #999);
+  max-width: min(40rem, 100%);
+  width: fit-content;
+  width: min(100%, 42ch);
+  margin: auto;
+  text-align: center;
+  padding-block: 0.5rem 0.5rem;
+}
+
+body {
+  overflow: auto;
+  position: relative;
+  display: grid;
+  place-content: center;
+  width: 10rem;
+  margin: auto;
+  gap: 1rem;
+  min-height: 90dvh;
+  text-align: center;
+}
+body > * {
+  transition: all 0.3s var(--back-out);
+}
+
+h1 {
+  --player-1-clr: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 1));
+  --player-2-clr: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 1));
+  --player-clr: var(--player-1-clr);
+  font-family: inherit;
+  text-align: center;
+  margin-block: 0;
+  padding-block: 0;
+  opacity: 0.8;
+  display: grid;
+  gap: 2rem;
+  position: relative;
+  color: light-dark(#000, #ffade3);
+  margin-bottom: 0px;
+}
+
+body:has(.player-2s-turn) h1 {
+  --player-clr: var(--player-2-clr);
+}
+
+h1 small {
+  font-size: 0.5em;
+  font-weight: normal;
+  color: #888888;
+  color: light-dark(#555, #777);
+}
+
+.logo {
+  font-size: 18rem;
+  margin-block-end: -4.9rem;
+  font-weight: normal;
+  height: 6rem;
+  opacity: 0.2;
+  display: grid;
+  place-content: center;
+  user-select: none;
+  z-index: -1;
+}
+
+kbd {
+  font-size: 0.9em;
+  font-weight: bold;
+  border: solid 1px rgba(136, 136, 136, 0.5019607843);
+  padding-inline: 0.5ch;
+  border-radius: 3px;
+}
+
+hr {
+  width: 100%;
+  opacity: 0.25;
+}
+
+h1 sup {
+  color: light-dark(#333, #ccc);
+  font-size: 1.2rem;
+  font-weight: normal;
+  display: inline-block;
+  display: block;
+  font-family: "Georgia";
+  position: absolute;
+  right: -1ch;
+  top: 0;
+  user-select: none;
+}
+
+.description {
+  text-align: left;
+  line-height: 1.6;
+  line-height: 1.75;
+  margin: 0 0.25rem;
+  padding: 0;
+  padding-inline: 0.5rem;
+  position: relative;
+  display: block;
+}
+.description sup {
+  font-family: "Georgia";
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1.175ch;
+  left: -0.5ch;
+}
+.description em {
+  font-style: normal;
+}
+
+.adjective {
+  color: var(--player-clr);
+  font-family: sans-serif;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.6em;
+  line-height: 1;
+  letter-spacing: 9.25px;
+  position: relative;
+  transition: color 0.3s var(--back-out);
+  width: fit-content;
+  margin-inline: auto;
+  padding-left: 0.75ch;
+}
+
+b,
+i {
+  font-family: inherit;
+  font-weight: bold;
+  font-style: normal;
+  transition: all 0.3s var(--back-out);
+  display: inline-grid;
+  place-content: center;
+  line-height: 0.75em;
+  width: 0.75rem;
+  height: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+b {
+  color: var(--player-1-clr);
+  transform: scale(2) translatey(-0.2rem);
+}
+
+i {
+  color: var(--player-2-clr);
+}
+
+.fade-out {
+  opacity: 75%;
+  filter: grayscale(75%);
+}
+
+button {
+  cursor: pointer;
+  color: inherit;
+  color: light-dark(#000, #fff);
+  color: ButtonText;
+  background-color: light-dark(ButtonFace, #ffade439);
+  border: transparent;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  translate: 0 3px;
+  width: max-content;
+  margin-inline: auto;
+  min-width: 17ch;
+  transition: opacity 0.6s var(--back-out),
+    background-color 0.3s var(--back-out), translate 0.6s var(--back-out);
+}
+button:hover {
+  background-color: rgba(255, 173, 227, 0.5);
+}
+button:focus-visible {
+  outline: dashed 1px currentcolor;
+  outline-offset: -3px;
+}
+button:active {
+  filter: scale(0.9);
+}
+
+table.xo:not(:has(b)) + footer button {
+  visibility: hidden;
+  opacity: 0;
+  translate: 0 -1rem;
+  pointer-events: none;
+}
+
+table.xo:has(b) + footer button {
+  visibility: unset;
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: unset;
+}
+
+body {
+  --player-1-clr: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 1));
+  --player-2-clr: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 1));
+  --player-clr: var(--player-1-clr);
+  --shadow-color: 220 40% 2%;
+  --shadow-strength: 25%;
+  --inner-shadow-highlight: inset 0 -0.5px 0 0 #fff1, inset 0 0.5px 0 0 #0007;
+  --shadow-6: 0 -1px 2px 0 hsl(var(--shadow-color) /
+          calc(var(--shadow-strength) + 2%)),
+    0 3px 2px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 7px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 12px 10px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 4%)),
+    0 22px 18px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%)),
+    0 41px 33px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 6%)),
+    0 100px 80px -2px hsl(var(--shadow-color) /
+          calc(var(--shadow-strength) + 7%));
+  --back-out: linear(
+    0 0%,
+    0.1935 4.37%,
+    0.3671 8.83%,
+    0.521 13.38%,
+    0.6557 18.04%,
+    0.7716 22.82%,
+    0.869 27.73%,
+    0.9488 32.81%,
+    1.0111 38.08%,
+    1.0512 42.81%,
+    1.0792 47.75%,
+    1.0953 52.97%,
+    1.1 58.55%,
+    1.0956 63.36%,
+    1.0838 68.73%,
+    1.0119 90.98%,
+    1.0029 95.69%,
+    1 100%
+  );
+}
+body:has(.player-2s-turn) {
+  --player-clr: var(--player-2-clr);
+}
+
+table.xo {
+  --player-1-clr: light-dark(
+    oklch(0.75 0.075 200 / 1),
+    oklch(0.7 0.07 200 / 1)
+  );
+  --_block-size: 7rem;
+  --_gap: 0.3rem;
+  --_cursor-1: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="filter:invert(1);"><text x="0" y="20" font-family="sans-serif" font-size="2rem" fill="black" style="font-weight: bold; font-style: normal; line-height: .75em; width: .75rem; height: .75rem; display: block;">⨯</text></svg>');
+  --_cursor-2: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="filter:invert(1);"><text x="0" y="20" font-family="sans-serif" font-size="1rem" fill="black" style="font-weight: bold; font-style: normal; line-height: .75em; width: .75rem; height: .75rem; display: block;">⭘</text></svg>');
+  width: 100%;
+  user-select: none;
+  border-spacing: var(--_gap);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  position: relative;
+  margin-inline: auto;
+  overflow: hidden;
+  /* board bg */
+  /* surfaces */
+  /* edges */
+  /* winner strokes */
+}
+table.xo:not(.player-2s-turn) {
+  cursor: var(--_cursor-1) 4 16, auto;
+}
+table.xo.player-2s-turn {
+  cursor: var(--_cursor-2) 4 16, auto;
+}
+table.xo:active td {
+  transition: opacity 0.6s linear;
+}
+table.xo:not(:active):has(td:focus-visible) {
+  cursor: default;
+}
+table.xo td:has(:is(b, i)) {
+  cursor: default;
+}
+table.xo::before {
+  content: "";
+  background: #000;
+  background: light-dark(#222, transparent);
+  position: absolute;
+  inset: 0;
+  inset: var(--_gap) 0 0 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 1;
+}
+table.xo td {
+  position: relative;
+  background: #000;
+  background: light-dark(#333, #000);
+  padding: 1rem;
+  border: solid 1px rgba(255, 173, 227, 0.3);
+  border-radius: 2px;
+  height: var(--_block-size);
+  width: var(--_block-size);
+  place-content: center;
+  transition: border 0.6s var(--back-out);
+}
+@starting-style {
+  table.xo td {
+    border-color: transparent;
+  }
+}
+table.xo td:not(:has(:is(b, i))):hover {
+  background-attachment: fixed;
+  background-image: radial-gradient(
+    circle at var(--x, 0) var(--y, 0),
+    hsla(320, 100%, 84%, 0.09),
+    hsla(320, 100%, 26%, 0.05) 7.5rem
+  );
+}
+table.xo td::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background-attachment: fixed;
+  background-color: #000;
+  background-image: radial-gradient(
+    circle at var(--x, 0) var(--y, 0),
+    hsla(320, 100%, 84%, 0.995),
+    transparent 5rem
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+table.xo td:has(:is(b, i))::after {
+  background-image: radial-gradient(
+    circle at var(--x, 0) var(--y, 0),
+    hsla(320, 100%, %, 0.995),
+    transparent 3rem
+  );
+}
+table.xo::after {
+  background: linear-gradient(
+    to var(--_to),
+    transparent calc(var(--_distance) - 1px),
+    var(--_color) calc(var(--_distance) - 1px),
+    var(--_color) calc(var(--_distance) + 1px),
+    transparent calc(var(--_distance) + 1px)
+  );
+  display: block;
+  pointer-events: none;
+  display: none;
+  content: "";
+  position: absolute;
+  inset: 0.5rem;
+  inset: calc(var(--_gap) * 4);
+  border-radius: 1rem;
+  z-index: 1;
+  opacity: 1;
+}
+table.xo td {
+  outline-offset: -1.25rem;
+}
+table.xo td:focus-visible {
+  outline: dashed 1px var(--player-1-clr);
+}
+table.xo.player-2s-turn td:focus-visible {
+  outline: dashed 1px var(--player-2-clr);
+}
+table.xo td footer {
+  position: absolute;
+  bottom: var(--_gap);
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+}
+
+button .new-game {
+  display: none;
+}
+
+footer .win {
+  display: none;
+  line-height: 1;
+}
+
+*:has(> table.xo) .turn {
+  --repeat: 1;
+}
+*:has(> table.xo) .turn > span {
+  display: block;
+  font-style: italic;
+}
+*:has(> table.xo) .turn > span > span {
+  color: #888;
+}
+*:has(> table.xo) .turn .player-1 {
+  color: var(--player-1-clr);
+  display: block;
+  line-height: 1;
+}
+*:has(> table.xo) .turn .player-2 {
+  color: var(--player-2-clr);
+  display: none;
+  line-height: 1;
+}
+
+*:has(> table.xo.player-2s-turn) .turn {
+  display: grid;
+  place-content: center;
+}
+*:has(> table.xo.player-2s-turn) .turn .player-1 {
+  display: none;
+}
+*:has(> table.xo.player-2s-turn) .turn .player-2 {
+  display: block;
+}
+
+footer {
+  --player-clr: var(--player-2-clr);
+  display: grid;
+  gap: 1rem;
+}
+
+.asterisk {
+  color: var(--player-2-clr);
+}
+
+body:has(.player-2s-turn) :is(h1, footer) .asterisk {
+  color: var(--player-1-clr);
+}
+h1 span {
+  font-size: 2.49em;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.5 0.15 200 / 1), oklch(0.7 0.07 200 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(1) td:nth-child(2) b):has(
+    tr:nth-child(1) td:nth-child(3) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(2) td:nth-child(3) b
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) b
+  ):has(tr:nth-child(3) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(1) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(2) b
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(3) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(3) b
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) b:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) b:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) b:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) b
+  ):has(tr:nth-child(2) td:nth-child(2) b):has(
+    tr:nth-child(3) td:nth-child(1) b
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(2) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(2) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(2) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(3) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)) {
+  pointer-events: none;
+  margin-block-end: -0.125rem;
+  /* horizontal 1 */
+  /* horizontal 2 */
+  /* horizontal 3 */
+  /* vertical 1 */
+  /* vertical 2 */
+  /* vertical 3 */
+  /* diagonal 1 */
+  /* diagonal 2 */
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button
+  .new-game {
+  display: unset;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button
+  .reset {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button:has(.new-game) {
+  filter: invert(1);
+  letter-spacing: 1px;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  + footer
+  button:has(.new-game):hover {
+  background-color: #aaa;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ footer
+  .player-1 {
+  display: block;
+  color: var(--player-2-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-1 {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)).player-2s-turn
+  ~ footer
+  span.player-2 {
+  display: block;
+  color: var(--player-1-clr);
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ footer
+  .turn {
+  display: none;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ .pyro {
+  display: block;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))
+  ~ .ttt-winner {
+  display: grid;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))::after {
+  display: block !important;
+  --_color: light-dark(oklch(0.75 0.2 20 / 1), oklch(0.7 0.15 20 / 0.75));
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out))::before {
+  inset: var(--_gap) 0;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(1) td:nth-child(2) i):has(
+    tr:nth-child(1) td:nth-child(3) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) + 0px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(2) td:nth-child(3) i
+  )::after {
+  --_distance: calc(50% - 1px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(3) td:nth-child(1) i
+  ):has(tr:nth-child(3) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) - 2px);
+  --_to: bottom;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(1) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: calc(16.66% - (2 * var(--_gap)) - 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(2) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(2) i
+  )::after {
+  --_distance: 50%;
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(3) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: calc(83.33% + (2 * var(--_gap)) + 1.5px);
+  --_to: right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(1) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(3) i
+  )::after {
+  --_distance: 50%;
+  --_to: top right;
+}
+table.xo:has(tr:nth-child(1) td:nth-child(3) i:not(.fade-out)):has(
+    tr:nth-child(2) td:nth-child(2) i:not(.fade-out)
+  ):has(tr:nth-child(3) td:nth-child(1) i:not(.fade-out)):has(
+    tr:nth-child(1) td:nth-child(3) i
+  ):has(tr:nth-child(2) td:nth-child(2) i):has(
+    tr:nth-child(3) td:nth-child(1) i
+  )::after {
+  --_distance: 50%;
+  --_to: top left;
+}
+
+.xo .remaining-life {
+  position: absolute;
+  top: 0.5ch;
+  left: 0.75ch;
+  z-index: 1;
+}
+
+.remaining-life {
+  white-space: nowrap;
+  display: flex;
+  gap: 0.5ch;
+  align-items: center;
+  justify-content: center;
+  background: rgba(136, 136, 136, 0.1882352941);
+  background: light-dark(
+    rgba(136, 136, 136, 0.2509803922),
+    rgba(136, 136, 136, 0.1450980392)
+  );
+  border: transparent;
+  border-radius: 5px;
+  padding-inline: 0.7ch;
+  padding-block: 0.25ch;
+  line-height: 1rem;
+  opacity: 0%;
+}
+
+.circle {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  margin: 1px; /* Space between circles */
+  display: inline-block; /* Aligns circles next to each other */
+}
+
+.outlined {
+  background-color: light-dark(
+    rgba(136, 136, 136, 0.6274509804),
+    rgba(68, 68, 68, 0.6274509804)
+  ); /* No fill */
+  border: 1px solid #4caf50; /* Outline color */
+  border-color: rgba(136, 136, 136, 0.5019607843);
+}
+
+.filled {
+  background-color: rgba(76, 175, 80, 0.6274509804);
+  background-color: light-dark(
+    rgba(76, 175, 80, 0.6666666667),
+    rgba(76, 175, 80, 0.5019607843)
+  ); /* Fill color */
+}
+
+.rubberband {
+  --duration: 3s;
+  --repeat: 3;
+  animation: rubberband var(--duration) ease-in-out var(--repeat);
+  /* animation-delay: 3s; */
+}
+
+@keyframes rubberband {
+  0% {
+    transform: scaleX(1);
+  }
+  19.8% {
+    transform: scale3d(1.125, 0.875, 1);
+  }
+  26.4% {
+    transform: scale3d(0.875, 1.125, 1);
+  }
+  33% {
+    transform: scale3d(1.075, 0.925, 1);
+  }
+  42.9% {
+    transform: scale3d(0.975, 1.025, 1);
+  }
+  49.5% {
+    transform: scale3d(1.025, 0.975, 1);
+  }
+  66% {
+    transform: scaleX(1);
+  }
+}
+@layer pyro {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .pyro > .before,
+  .pyro > .after {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+      0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+      0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+      0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+      0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+      0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+      0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+      0 0 #fff, 0 0 #fff, 0 0 #fff;
+    -moz-animation: 1s bang ease-out infinite backwards,
+      1s gravity ease-in infinite backwards,
+      5s position linear infinite backwards;
+    -webkit-animation: 1s bang ease-out infinite backwards,
+      1s gravity ease-in infinite backwards,
+      5s position linear infinite backwards;
+    -o-animation: 1s bang ease-out infinite backwards,
+      1s gravity ease-in infinite backwards,
+      5s position linear infinite backwards;
+    -ms-animation: 1s bang ease-out infinite backwards,
+      1s gravity ease-in infinite backwards,
+      5s position linear infinite backwards;
+    animation: 1s bang ease-out infinite backwards,
+      1s gravity ease-in infinite backwards,
+      5s position linear infinite backwards;
+  }
+  .pyro > .after {
+    -moz-animation-delay: 1.25s, 1.25s, 1.25s;
+    -webkit-animation-delay: 1.25s, 1.25s, 1.25s;
+    -o-animation-delay: 1.25s, 1.25s, 1.25s;
+    -ms-animation-delay: 1.25s, 1.25s, 1.25s;
+    animation-delay: 1.25s, 1.25s, 1.25s;
+    -moz-animation-duration: 1.25s, 1.25s, 6.25s;
+    -webkit-animation-duration: 1.25s, 1.25s, 6.25s;
+    -o-animation-duration: 1.25s, 1.25s, 6.25s;
+    -ms-animation-duration: 1.25s, 1.25s, 6.25s;
+    animation-duration: 1.25s, 1.25s, 6.25s;
+  }
+  @-webkit-keyframes bang {
+    to {
+      box-shadow: 16px -0.6666666667px hsl(33, 100%, 50%),
+        199px -63.6666666667px hsl(83, 100%, 50%),
+        -90px -394.6666666667px hsl(347, 100%, 50%),
+        51px -69.6666666667px hsl(134, 100%, 50%),
+        150px 57.3333333333px hsl(225, 100%, 50%),
+        8px -50.6666666667px hsl(274, 100%, 50%),
+        13px -73.6666666667px hsl(251, 100%, 50%),
+        207px -163.6666666667px hsl(156, 100%, 50%),
+        175px -82.6666666667px hsl(42, 100%, 50%),
+        152px -208.6666666667px hsl(347, 100%, 50%),
+        -241px -408.6666666667px hsl(76, 100%, 50%),
+        236px -53.6666666667px hsl(218, 100%, 50%),
+        -127px -126.6666666667px hsl(44, 100%, 50%),
+        -113px -307.6666666667px hsl(44, 100%, 50%),
+        -21px -358.6666666667px hsl(304, 100%, 50%),
+        217px 27.3333333333px hsl(209, 100%, 50%),
+        -29px 5.3333333333px hsl(166, 100%, 50%),
+        203px -110.6666666667px hsl(86, 100%, 50%),
+        -12px -326.6666666667px hsl(276, 100%, 50%),
+        127px -185.6666666667px hsl(95, 100%, 50%),
+        156px -22.6666666667px hsl(145, 100%, 50%),
+        -50px -196.6666666667px hsl(143, 100%, 50%),
+        -131px -373.6666666667px hsl(139, 100%, 50%),
+        138px 9.3333333333px hsl(221, 100%, 50%),
+        -17px -323.6666666667px hsl(316, 100%, 50%),
+        132px 8.3333333333px hsl(174, 100%, 50%),
+        202px -37.6666666667px hsl(134, 100%, 50%),
+        247px -349.6666666667px hsl(45, 100%, 50%),
+        -15px -158.6666666667px hsl(201, 100%, 50%),
+        -116px -295.6666666667px hsl(145, 100%, 50%),
+        -118px -2.6666666667px hsl(50, 100%, 50%),
+        219px -411.6666666667px hsl(132, 100%, 50%),
+        -42px 78.3333333333px hsl(40, 100%, 50%),
+        -76px -282.6666666667px hsl(176, 100%, 50%),
+        217px -107.6666666667px hsl(328, 100%, 50%),
+        -223px -207.6666666667px hsl(287, 100%, 50%),
+        98px -126.6666666667px hsl(86, 100%, 50%),
+        81px -96.6666666667px hsl(9, 100%, 50%),
+        -44px -74.6666666667px hsl(161, 100%, 50%),
+        -100px -288.6666666667px hsl(243, 100%, 50%),
+        -171px -353.6666666667px hsl(201, 100%, 50%),
+        -82px -332.6666666667px hsl(179, 100%, 50%),
+        -45px -388.6666666667px hsl(312, 100%, 50%),
+        -140px -306.6666666667px hsl(177, 100%, 50%),
+        -216px -149.6666666667px hsl(115, 100%, 50%),
+        -200px -156.6666666667px hsl(147, 100%, 50%),
+        -146px 80.3333333333px hsl(197, 100%, 50%),
+        28px -293.6666666667px hsl(330, 100%, 50%),
+        -160px 41.3333333333px hsl(292, 100%, 50%),
+        -227px -395.6666666667px hsl(332, 100%, 50%),
+        26px -108.6666666667px hsl(118, 100%, 50%);
+    }
+  }
+  @-moz-keyframes bang {
+    to {
+      box-shadow: 16px -0.6666666667px hsl(33, 100%, 50%),
+        199px -63.6666666667px hsl(83, 100%, 50%),
+        -90px -394.6666666667px hsl(347, 100%, 50%),
+        51px -69.6666666667px hsl(134, 100%, 50%),
+        150px 57.3333333333px hsl(225, 100%, 50%),
+        8px -50.6666666667px hsl(274, 100%, 50%),
+        13px -73.6666666667px hsl(251, 100%, 50%),
+        207px -163.6666666667px hsl(156, 100%, 50%),
+        175px -82.6666666667px hsl(42, 100%, 50%),
+        152px -208.6666666667px hsl(347, 100%, 50%),
+        -241px -408.6666666667px hsl(76, 100%, 50%),
+        236px -53.6666666667px hsl(218, 100%, 50%),
+        -127px -126.6666666667px hsl(44, 100%, 50%),
+        -113px -307.6666666667px hsl(44, 100%, 50%),
+        -21px -358.6666666667px hsl(304, 100%, 50%),
+        217px 27.3333333333px hsl(209, 100%, 50%),
+        -29px 5.3333333333px hsl(166, 100%, 50%),
+        203px -110.6666666667px hsl(86, 100%, 50%),
+        -12px -326.6666666667px hsl(276, 100%, 50%),
+        127px -185.6666666667px hsl(95, 100%, 50%),
+        156px -22.6666666667px hsl(145, 100%, 50%),
+        -50px -196.6666666667px hsl(143, 100%, 50%),
+        -131px -373.6666666667px hsl(139, 100%, 50%),
+        138px 9.3333333333px hsl(221, 100%, 50%),
+        -17px -323.6666666667px hsl(316, 100%, 50%),
+        132px 8.3333333333px hsl(174, 100%, 50%),
+        202px -37.6666666667px hsl(134, 100%, 50%),
+        247px -349.6666666667px hsl(45, 100%, 50%),
+        -15px -158.6666666667px hsl(201, 100%, 50%),
+        -116px -295.6666666667px hsl(145, 100%, 50%),
+        -118px -2.6666666667px hsl(50, 100%, 50%),
+        219px -411.6666666667px hsl(132, 100%, 50%),
+        -42px 78.3333333333px hsl(40, 100%, 50%),
+        -76px -282.6666666667px hsl(176, 100%, 50%),
+        217px -107.6666666667px hsl(328, 100%, 50%),
+        -223px -207.6666666667px hsl(287, 100%, 50%),
+        98px -126.6666666667px hsl(86, 100%, 50%),
+        81px -96.6666666667px hsl(9, 100%, 50%),
+        -44px -74.6666666667px hsl(161, 100%, 50%),
+        -100px -288.6666666667px hsl(243, 100%, 50%),
+        -171px -353.6666666667px hsl(201, 100%, 50%),
+        -82px -332.6666666667px hsl(179, 100%, 50%),
+        -45px -388.6666666667px hsl(312, 100%, 50%),
+        -140px -306.6666666667px hsl(177, 100%, 50%),
+        -216px -149.6666666667px hsl(115, 100%, 50%),
+        -200px -156.6666666667px hsl(147, 100%, 50%),
+        -146px 80.3333333333px hsl(197, 100%, 50%),
+        28px -293.6666666667px hsl(330, 100%, 50%),
+        -160px 41.3333333333px hsl(292, 100%, 50%),
+        -227px -395.6666666667px hsl(332, 100%, 50%),
+        26px -108.6666666667px hsl(118, 100%, 50%);
+    }
+  }
+  @-o-keyframes bang {
+    to {
+      box-shadow: 16px -0.6666666667px hsl(33, 100%, 50%),
+        199px -63.6666666667px hsl(83, 100%, 50%),
+        -90px -394.6666666667px hsl(347, 100%, 50%),
+        51px -69.6666666667px hsl(134, 100%, 50%),
+        150px 57.3333333333px hsl(225, 100%, 50%),
+        8px -50.6666666667px hsl(274, 100%, 50%),
+        13px -73.6666666667px hsl(251, 100%, 50%),
+        207px -163.6666666667px hsl(156, 100%, 50%),
+        175px -82.6666666667px hsl(42, 100%, 50%),
+        152px -208.6666666667px hsl(347, 100%, 50%),
+        -241px -408.6666666667px hsl(76, 100%, 50%),
+        236px -53.6666666667px hsl(218, 100%, 50%),
+        -127px -126.6666666667px hsl(44, 100%, 50%),
+        -113px -307.6666666667px hsl(44, 100%, 50%),
+        -21px -358.6666666667px hsl(304, 100%, 50%),
+        217px 27.3333333333px hsl(209, 100%, 50%),
+        -29px 5.3333333333px hsl(166, 100%, 50%),
+        203px -110.6666666667px hsl(86, 100%, 50%),
+        -12px -326.6666666667px hsl(276, 100%, 50%),
+        127px -185.6666666667px hsl(95, 100%, 50%),
+        156px -22.6666666667px hsl(145, 100%, 50%),
+        -50px -196.6666666667px hsl(143, 100%, 50%),
+        -131px -373.6666666667px hsl(139, 100%, 50%),
+        138px 9.3333333333px hsl(221, 100%, 50%),
+        -17px -323.6666666667px hsl(316, 100%, 50%),
+        132px 8.3333333333px hsl(174, 100%, 50%),
+        202px -37.6666666667px hsl(134, 100%, 50%),
+        247px -349.6666666667px hsl(45, 100%, 50%),
+        -15px -158.6666666667px hsl(201, 100%, 50%),
+        -116px -295.6666666667px hsl(145, 100%, 50%),
+        -118px -2.6666666667px hsl(50, 100%, 50%),
+        219px -411.6666666667px hsl(132, 100%, 50%),
+        -42px 78.3333333333px hsl(40, 100%, 50%),
+        -76px -282.6666666667px hsl(176, 100%, 50%),
+        217px -107.6666666667px hsl(328, 100%, 50%),
+        -223px -207.6666666667px hsl(287, 100%, 50%),
+        98px -126.6666666667px hsl(86, 100%, 50%),
+        81px -96.6666666667px hsl(9, 100%, 50%),
+        -44px -74.6666666667px hsl(161, 100%, 50%),
+        -100px -288.6666666667px hsl(243, 100%, 50%),
+        -171px -353.6666666667px hsl(201, 100%, 50%),
+        -82px -332.6666666667px hsl(179, 100%, 50%),
+        -45px -388.6666666667px hsl(312, 100%, 50%),
+        -140px -306.6666666667px hsl(177, 100%, 50%),
+        -216px -149.6666666667px hsl(115, 100%, 50%),
+        -200px -156.6666666667px hsl(147, 100%, 50%),
+        -146px 80.3333333333px hsl(197, 100%, 50%),
+        28px -293.6666666667px hsl(330, 100%, 50%),
+        -160px 41.3333333333px hsl(292, 100%, 50%),
+        -227px -395.6666666667px hsl(332, 100%, 50%),
+        26px -108.6666666667px hsl(118, 100%, 50%);
+    }
+  }
+  @-ms-keyframes bang {
+    to {
+      box-shadow: 16px -0.6666666667px hsl(33, 100%, 50%),
+        199px -63.6666666667px hsl(83, 100%, 50%),
+        -90px -394.6666666667px hsl(347, 100%, 50%),
+        51px -69.6666666667px hsl(134, 100%, 50%),
+        150px 57.3333333333px hsl(225, 100%, 50%),
+        8px -50.6666666667px hsl(274, 100%, 50%),
+        13px -73.6666666667px hsl(251, 100%, 50%),
+        207px -163.6666666667px hsl(156, 100%, 50%),
+        175px -82.6666666667px hsl(42, 100%, 50%),
+        152px -208.6666666667px hsl(347, 100%, 50%),
+        -241px -408.6666666667px hsl(76, 100%, 50%),
+        236px -53.6666666667px hsl(218, 100%, 50%),
+        -127px -126.6666666667px hsl(44, 100%, 50%),
+        -113px -307.6666666667px hsl(44, 100%, 50%),
+        -21px -358.6666666667px hsl(304, 100%, 50%),
+        217px 27.3333333333px hsl(209, 100%, 50%),
+        -29px 5.3333333333px hsl(166, 100%, 50%),
+        203px -110.6666666667px hsl(86, 100%, 50%),
+        -12px -326.6666666667px hsl(276, 100%, 50%),
+        127px -185.6666666667px hsl(95, 100%, 50%),
+        156px -22.6666666667px hsl(145, 100%, 50%),
+        -50px -196.6666666667px hsl(143, 100%, 50%),
+        -131px -373.6666666667px hsl(139, 100%, 50%),
+        138px 9.3333333333px hsl(221, 100%, 50%),
+        -17px -323.6666666667px hsl(316, 100%, 50%),
+        132px 8.3333333333px hsl(174, 100%, 50%),
+        202px -37.6666666667px hsl(134, 100%, 50%),
+        247px -349.6666666667px hsl(45, 100%, 50%),
+        -15px -158.6666666667px hsl(201, 100%, 50%),
+        -116px -295.6666666667px hsl(145, 100%, 50%),
+        -118px -2.6666666667px hsl(50, 100%, 50%),
+        219px -411.6666666667px hsl(132, 100%, 50%),
+        -42px 78.3333333333px hsl(40, 100%, 50%),
+        -76px -282.6666666667px hsl(176, 100%, 50%),
+        217px -107.6666666667px hsl(328, 100%, 50%),
+        -223px -207.6666666667px hsl(287, 100%, 50%),
+        98px -126.6666666667px hsl(86, 100%, 50%),
+        81px -96.6666666667px hsl(9, 100%, 50%),
+        -44px -74.6666666667px hsl(161, 100%, 50%),
+        -100px -288.6666666667px hsl(243, 100%, 50%),
+        -171px -353.6666666667px hsl(201, 100%, 50%),
+        -82px -332.6666666667px hsl(179, 100%, 50%),
+        -45px -388.6666666667px hsl(312, 100%, 50%),
+        -140px -306.6666666667px hsl(177, 100%, 50%),
+        -216px -149.6666666667px hsl(115, 100%, 50%),
+        -200px -156.6666666667px hsl(147, 100%, 50%),
+        -146px 80.3333333333px hsl(197, 100%, 50%),
+        28px -293.6666666667px hsl(330, 100%, 50%),
+        -160px 41.3333333333px hsl(292, 100%, 50%),
+        -227px -395.6666666667px hsl(332, 100%, 50%),
+        26px -108.6666666667px hsl(118, 100%, 50%);
+    }
+  }
+  @keyframes bang {
+    to {
+      box-shadow: 16px -0.6666666667px hsl(33, 100%, 50%),
+        199px -63.6666666667px hsl(83, 100%, 50%),
+        -90px -394.6666666667px hsl(347, 100%, 50%),
+        51px -69.6666666667px hsl(134, 100%, 50%),
+        150px 57.3333333333px hsl(225, 100%, 50%),
+        8px -50.6666666667px hsl(274, 100%, 50%),
+        13px -73.6666666667px hsl(251, 100%, 50%),
+        207px -163.6666666667px hsl(156, 100%, 50%),
+        175px -82.6666666667px hsl(42, 100%, 50%),
+        152px -208.6666666667px hsl(347, 100%, 50%),
+        -241px -408.6666666667px hsl(76, 100%, 50%),
+        236px -53.6666666667px hsl(218, 100%, 50%),
+        -127px -126.6666666667px hsl(44, 100%, 50%),
+        -113px -307.6666666667px hsl(44, 100%, 50%),
+        -21px -358.6666666667px hsl(304, 100%, 50%),
+        217px 27.3333333333px hsl(209, 100%, 50%),
+        -29px 5.3333333333px hsl(166, 100%, 50%),
+        203px -110.6666666667px hsl(86, 100%, 50%),
+        -12px -326.6666666667px hsl(276, 100%, 50%),
+        127px -185.6666666667px hsl(95, 100%, 50%),
+        156px -22.6666666667px hsl(145, 100%, 50%),
+        -50px -196.6666666667px hsl(143, 100%, 50%),
+        -131px -373.6666666667px hsl(139, 100%, 50%),
+        138px 9.3333333333px hsl(221, 100%, 50%),
+        -17px -323.6666666667px hsl(316, 100%, 50%),
+        132px 8.3333333333px hsl(174, 100%, 50%),
+        202px -37.6666666667px hsl(134, 100%, 50%),
+        247px -349.6666666667px hsl(45, 100%, 50%),
+        -15px -158.6666666667px hsl(201, 100%, 50%),
+        -116px -295.6666666667px hsl(145, 100%, 50%),
+        -118px -2.6666666667px hsl(50, 100%, 50%),
+        219px -411.6666666667px hsl(132, 100%, 50%),
+        -42px 78.3333333333px hsl(40, 100%, 50%),
+        -76px -282.6666666667px hsl(176, 100%, 50%),
+        217px -107.6666666667px hsl(328, 100%, 50%),
+        -223px -207.6666666667px hsl(287, 100%, 50%),
+        98px -126.6666666667px hsl(86, 100%, 50%),
+        81px -96.6666666667px hsl(9, 100%, 50%),
+        -44px -74.6666666667px hsl(161, 100%, 50%),
+        -100px -288.6666666667px hsl(243, 100%, 50%),
+        -171px -353.6666666667px hsl(201, 100%, 50%),
+        -82px -332.6666666667px hsl(179, 100%, 50%),
+        -45px -388.6666666667px hsl(312, 100%, 50%),
+        -140px -306.6666666667px hsl(177, 100%, 50%),
+        -216px -149.6666666667px hsl(115, 100%, 50%),
+        -200px -156.6666666667px hsl(147, 100%, 50%),
+        -146px 80.3333333333px hsl(197, 100%, 50%),
+        28px -293.6666666667px hsl(330, 100%, 50%),
+        -160px 41.3333333333px hsl(292, 100%, 50%),
+        -227px -395.6666666667px hsl(332, 100%, 50%),
+        26px -108.6666666667px hsl(118, 100%, 50%);
+    }
+  }
+  @-webkit-keyframes gravity {
+    to {
+      transform: translateY(200px);
+      -moz-transform: translateY(200px);
+      -webkit-transform: translateY(200px);
+      -o-transform: translateY(200px);
+      -ms-transform: translateY(200px);
+      opacity: 0;
+    }
+  }
+  @-moz-keyframes gravity {
+    to {
+      transform: translateY(200px);
+      -moz-transform: translateY(200px);
+      -webkit-transform: translateY(200px);
+      -o-transform: translateY(200px);
+      -ms-transform: translateY(200px);
+      opacity: 0;
+    }
+  }
+  @-o-keyframes gravity {
+    to {
+      transform: translateY(200px);
+      -moz-transform: translateY(200px);
+      -webkit-transform: translateY(200px);
+      -o-transform: translateY(200px);
+      -ms-transform: translateY(200px);
+      opacity: 0;
+    }
+  }
+  @-ms-keyframes gravity {
+    to {
+      transform: translateY(200px);
+      -moz-transform: translateY(200px);
+      -webkit-transform: translateY(200px);
+      -o-transform: translateY(200px);
+      -ms-transform: translateY(200px);
+      opacity: 0;
+    }
+  }
+  @keyframes gravity {
+    to {
+      transform: translateY(200px);
+      -moz-transform: translateY(200px);
+      -webkit-transform: translateY(200px);
+      -o-transform: translateY(200px);
+      -ms-transform: translateY(200px);
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes position {
+    0%,
+    19.9% {
+      margin-top: 10%;
+      margin-left: 40%;
+    }
+    20%,
+    39.9% {
+      margin-top: 40%;
+      margin-left: 30%;
+    }
+    40%,
+    59.9% {
+      margin-top: 20%;
+      margin-left: 70%;
+    }
+    60%,
+    79.9% {
+      margin-top: 30%;
+      margin-left: 20%;
+    }
+    80%,
+    99.9% {
+      margin-top: 30%;
+      margin-left: 80%;
+    }
+  }
+  @-moz-keyframes position {
+    0%,
+    19.9% {
+      margin-top: 10%;
+      margin-left: 40%;
+    }
+    20%,
+    39.9% {
+      margin-top: 40%;
+      margin-left: 30%;
+    }
+    40%,
+    59.9% {
+      margin-top: 20%;
+      margin-left: 70%;
+    }
+    60%,
+    79.9% {
+      margin-top: 30%;
+      margin-left: 20%;
+    }
+    80%,
+    99.9% {
+      margin-top: 30%;
+      margin-left: 80%;
+    }
+  }
+  @-o-keyframes position {
+    0%,
+    19.9% {
+      margin-top: 10%;
+      margin-left: 40%;
+    }
+    20%,
+    39.9% {
+      margin-top: 40%;
+      margin-left: 30%;
+    }
+    40%,
+    59.9% {
+      margin-top: 20%;
+      margin-left: 70%;
+    }
+    60%,
+    79.9% {
+      margin-top: 30%;
+      margin-left: 20%;
+    }
+    80%,
+    99.9% {
+      margin-top: 30%;
+      margin-left: 80%;
+    }
+  }
+  @-ms-keyframes position {
+    0%,
+    19.9% {
+      margin-top: 10%;
+      margin-left: 40%;
+    }
+    20%,
+    39.9% {
+      margin-top: 40%;
+      margin-left: 30%;
+    }
+    40%,
+    59.9% {
+      margin-top: 20%;
+      margin-left: 70%;
+    }
+    60%,
+    79.9% {
+      margin-top: 30%;
+      margin-left: 20%;
+    }
+    80%,
+    99.9% {
+      margin-top: 30%;
+      margin-left: 80%;
+    }
+  }
+  @keyframes position {
+    0%,
+    19.9% {
+      margin-top: 10%;
+      margin-left: 40%;
+    }
+    20%,
+    39.9% {
+      margin-top: 40%;
+      margin-left: 30%;
+    }
+    40%,
+    59.9% {
+      margin-top: 20%;
+      margin-left: 70%;
+    }
+    60%,
+    79.9% {
+      margin-top: 30%;
+      margin-left: 20%;
+    }
+    80%,
+    99.9% {
+      margin-top: 30%;
+      margin-left: 80%;
+    }
+  }
+}
+.pyro {
+  z-index: 3;
+  inset: 0;
+  width: 100vw;
+  margin: auto;
+  position: fixed;
+  display: none;
+  pointer-events: none;
+}
+
+@starting-style {
+  .ttt-winner {
+    opacity: 0;
+  }
+}
+.ttt-winner:focus-visible {
+  outline: dashed 2px currentcolor;
+  outline-offset: -4px;
+}
+.ttt-winner.not-shown {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Theme Picker */
+/**/
+*:has(.theme-picker) {
+  position: static;
+} /**/
+/**/
+html:has(.theme-picker) {
+  position: relative;
+} /**/
+.theme-picker {
+  --color-picker-bg: var(--primary-vivid, #88888860);
+  --color-picker-color: var(--surface-base);
+  --color-picker-hover-color: var(--surface-min);
+  --color-picker-shadow: var(--shadow-1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  position: fixed;
+  position: absolute;
+  top: auto;
+  top: 45px;
+  right: 45px;
+  z-index: 3;
+  /* border: solid 1px; */
+  display: grid;
+  justify-items: end;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 85px;
+  /* Hide initially, show when JS loads */
+  /* &:hover:focus-within {
+     gap: 0;
+     .picker-label {
+       display: none;
+     }
+   } */
+  /* Only show the next option */
+  transition: top 0.3s ease-in-out, right 0.3s ease-in-out;
+}
+.theme-picker:not(:focus-within) {
+  opacity: 0;
+  pointer-events: none;
+}
+.theme-picker > *:not(:nth-child(2)) {
+  display: none;
+}
+.theme-picker button {
+  /* https://www.trysmudford.com/blog/a-good-reset/ */
+  -webkit-appearance: none;
+  box-shadow: none;
+  cursor: pointer;
+  /**/
+  border: 0; /**/
+  margin: 0;
+  border-radius: 2em;
+  min-height: 2.2rem;
+  min-width: 2.2rem;
+  display: grid;
+  place-content: center;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 0.5ch;
+  padding: 0.5em 1ch;
+  line-height: 1;
+  background-color: var(--color-picker-bg);
+  color: var(--color-picker-color);
+  font-size: inherit;
+  font-family: system-ui, serif;
+  box-shadow: var(--color-picker-shadow);
+  transition: padding 0.8s cubic-bezier(0.5, 0.75, 0.75, 1.25),
+    gap 0.4s cubic-bezier(0.5, 0.75, 0.75, 1.25),
+    margin 0.4s cubic-bezier(0.5, 0.75, 0.75, 1.25),
+    border-radius 0.2s cubic-bezier(0.5, 0.75, 0.75, 1.25);
+}
+.theme-picker button:hover {
+  color: var(--color-picker-hover-color);
+  /**border-radius: 6px;/**/
+  margin-right: -3px;
+}
+.theme-picker button:active {
+  /** filter: invert(1) hue-rotate(180deg); /**/
+  color: var(--color-picker-color);
+  /**border-radius: 8px;/**/
+  cursor: wait;
+}
+.theme-picker button .icon {
+  text-align: center;
+  width: 1em;
+  height: 1em;
+  display: grid;
+  place-content: center;
+  padding-inline: 0;
+  padding: 0.1em;
+}
+.theme-picker button .picker-label {
+  transition: all 0.3s ease-in-out;
+  padding-inline: 0.25em 0.15em;
+}
+.theme-picker:not(:is(:hover, :focus-within)) button {
+  gap: 0;
+}
+.theme-picker:not(:is(:hover, :focus-within)) button > *:not(.icon) {
+  display: none;
+}
+@media (width < 890px) {
+  .theme-picker {
+    /* outline: solid 1px red; */
+    top: 0.5rem;
+    right: 0.5rem;
+    /**/
+    scale: 0.75; /**/
+  }
+}
+
+.hover-slide {
+  background: linear-gradient(var(--player-clr) 0 0) var(--p, 0) / var(--p, 0)
+    no-repeat;
+  padding-inline: 0.07em;
+  text-decoration: none;
+  display: inline-block;
+  width: max-content;
+  transition: 0.4s, background-position 0s;
+}
+.hover-slide:hover {
+  --p: 100%;
+  color: light-dark(#000, #fff) !important;
+}
+
+.built-by {
+  font-family: "Georgia";
+  text-decoration: none;
+  font-size: 1.05em;
+  color: currentcolor;
+  white-space: nowrap;
+}
+
+.info-game {
+  font-size: 0.75em;
+  text-align: center;
+  color: #888;
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  margin-block: 0.25rem;
+}
+
+.marked {
+  opacity: 0;
+  transition: opacity 0.6s var(--back-out);
+}
+
+.game-status {
+  max-height: 1rem;
+}
+
+.player-2,
+.player-1 {
+  font-family: system-ui;
+}
+canvas {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.ttt-winner {
+  opacity: 0%;
+  width: 0px;
+}
+footer {
+  margin-top: 30px;
+}
